@@ -27,6 +27,8 @@ public class basic{
 		}
 		System.out.println("Size of arr : " + arr.length);
 
+		// メンバ関数の呼び出し
+		// *this は省略可能
 		x = func(x);
 		System.out.println("x : " + x);
 
