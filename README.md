@@ -141,8 +141,8 @@ List<String> cpList = str.subList(2, 6);
 
 
 # メソッドについて
-- 完全なるオブジェクト指向言語なので，C言語の様などこにも属さないユーザ関数は存在しない．
-- そのかわり，main() が定義されているクラスのメソッドや，static 演算子の付いた関数が実質従来通りのユーザ関数に相当する．
+- 完全なるオブジェクト指向言語なので，C言語の様な，どこにも属さないユーザ関数は存在しない．
+- そのかわり，static 演算子の付いた関数が実質従来通りのユーザ関数に相当する．
 - this ポインタは省略してok っぽい．
 - 同一ディレクトリ内のjava コードで定義されている他クラスのメソッドで，なおかつstatic なメソッドならば，"クラス名.メソッド" の形で呼び出せる(インスタンスの参照渡しが不要)
 ```
@@ -161,10 +161,136 @@ public class Hoge{
 }
 ```
 
-# インターフェース
+# 抽象クラスとインターフェース
+## 抽象クラス
+- C++ で言う完全抽象クラスのこと．
+- 抽象メソッド(具体的な処理が書かれていないメソッド)を1つ以上持つクラスのことを抽象クラスという．
+- メソッドの実装がされていないため，このクラスのインスタンスは生成出来ないが，このクラスを雛形として継承し，メソッドをオーバーライドすることで，形式に関する統一性を維持しつつも多様性を実現することが出来る．
+- 使い方は以下の通り:
+```
+// 抽象クラスHoge の宣言
+abstract class Hoge{
+
+	// 抽象メソッドの宣言(C++ ではvirtualだった)
+	abstract int hoge_func(int x);
+}
+```
+
+## インターフェース
+- 具体的な処理内容が書かれていない関数と，定数をまとめて提供するセットの様なもののこと．
+- ただメソッドと変数をセットにして提供しているだけだが，別のクラスの内部でインターフェースのメソッドを実装することで，インターフェースをクラスの一部として組み込むことが出来る．
+- 実装の際には，キーワード"implements" を使う．
+- 定数とメソッドのみを定義できる．
+- インターフェースのメンバ変数は，自動的にpublic static final が付く．
+- クラス同様に，static メソッドにすると，メソッドの所属はインスタンスではなくインターフェースになる．
+
+- 抽象クラスと似ているが，**クラスではない．**
+- 抽象クラスでは多重継承(複数の異なるクラスの継承)は出来ないが，インターフェースは1つのクラスに対して何個でも組み込みが可能である(サンプルを見て)．
+- 継承という行為自体があまり良い仕組みではないので，継承しなくてもオーバーライド的なことが実現できるのは大きなメリットだと思う．
+- そもそも形式の決まったメソッドのセットに名前を付けて統一的に機能を提供したいだけならば，本来継承は必要ないはず(継承という考え方と合っていない)．
+- 使い方は以下の通り:
+```
+interface Add{
+	int NUM1 = 1;
+	int add();
+}
+
+interface Sub{
+	in NUM2 = 2;
+	int sub();
+}
+
+// インターフェースを組み込んで実装するクラス
+class Calc implement Add, Sub{
+	public int add(){
+		return NUM1 + NUM2; // NUM1 とNUM2 を両方使っていることに注目
+	}
+
+	public int sub(){
+		return NUM2 - NUM1;
+	}
+}
+
+// 上記のクラスを利用するクラス
+public class Main{
+	public static void main(String[] args){
+		Calc calc = new Calc();
+		int x = calc.add();
+		int y = calc.sub();
+	}
+}
+
+```
+
+上記がインターフェースの基本的な扱い方だが，以下にdefault メソッドを使う場合とstatic メソッドを使う場合の例を示す．
+```
+interface Calc{
+	public int NUM1 = 1;
+	public int NUM2 = 2;
+
+	// default メソッド
+	default public int calc(){
+		return NUM1 + NUM2;
+	}
+}
+
+interface Hoge{
+	// static メソッド
+	public static void func_hoge(){
+		System.out.println("hogeee");
+	}
+}
+
+class Add implements Calc{
+	// オーバーライドしないので何も書かない
+}
+
+public class Main{
+	public static void main(String[] argv){
+
+		Add add = new Add();
+		// メソッドの呼び出し
+		int x = add.calc();
+
+		// static メソッドなので，インターフェースのメソッドを名指しで呼び出す
+		int y = Hoge.func_hoge();
+	}
+}
+
+```
 
 # 継承
 - **継承は悪い文明**
+- C++ では特に明示すること無くなんとなく継承していたが，Java では"extends" というキーワードを利用する．
+- 多重継承は出来ない．
+- 親クラスを「スーパークラス」，子クラスを「サブクラス」という．
+- オーバーライドの際，特にキーワードとかは必要ない(C++ ではvirtualだった)．
+- もちろんオーバーロードもok．
+- 使い方は以下の通り: (まぁ使わないけどな..!)
+```
+// human.java の内容
+public class human{
+	protected String name;
+	protected int age;
+	public human();
+}
+
+// wizard.java の内容
+public class wizard extends human{ // human を継承
+	private magic;
+	public static void main(String[] argv){
+
+		// 子クラスであるwizard は親クラスhuman を継承しているので，
+		// wizard クラスをhuman クラスとみなすことが出来る!...らしいよ．
+		human megumin = new wizard(); // <-- メリットがあるのかは不明．
+
+		megumin.name = "Megumin";
+		megumin.age = 14;
+	}
+}
+```
+
+# パッケージ
 
 # サーブレット/JSP
 
