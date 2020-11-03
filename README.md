@@ -306,9 +306,3 @@ public class hoge{
 }
 ```
 
-# サーブレット/JSP
-サーブレットの動作環境の構築方法は，[server](https://github.com/Ailes-Grises/server) リポジトリを参照すること．サーブレットのHello World までは案内している．
-
-# Spring フレームワーク
-Spring は，Java でWEB アプリを作成するためのフレームワークである．
-
