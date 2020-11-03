@@ -4,7 +4,6 @@
 - import はusing namespace に相当する(include ではない)
 
 # アクセス権
-- Java にはバカみたいにたくさんのアクセス権があり，それをかなり厳密に指定している．
 - 基本的には，static, final, public, private, protected を覚えておけば良い．
 - static は，付けると対象のオブジェクトの所属がクラスのインスタンスではなくてクラスそのものになる．C++ における，同一ファイル内でのみアクセス可能といった機能は多分消滅している(完全オブジェクト指向だから)．
 - final は，C++ でいうconst である．最初に代入した値を後から変更できなくなるだけで，C++ のconst と変わらない．
@@ -154,8 +153,8 @@ public class Hoge{
     int sum = this -> calc_sum(x, y);
     System.ou.println("sum : " + sum);
 
-		// 他クラスHoge のstatic メソッドhoge_func() を呼び出す
-		Hoge.hoge_func();
+    // 他クラスHoge のstatic メソッドhoge_func() を呼び出す
+    Hoge.hoge_func();
   }
 }
 ```
@@ -170,8 +169,8 @@ public class Hoge{
 // 抽象クラスHoge の宣言
 abstract class Hoge{
 
-	// 抽象メソッドの宣言(C++ ではvirtualだった)
-	abstract int hoge_func(int x);
+  // 抽象メソッドの宣言(C++ ではvirtualだった)
+  abstract int hoge_func(int x);
 }
 ```
 
@@ -191,33 +190,33 @@ abstract class Hoge{
 - 使い方は以下の通り:
 ```
 interface Add{
-	int NUM1 = 1;
-	int add();
+  int NUM1 = 1;
+  int add();
 }
 
 interface Sub{
-	in NUM2 = 2;
-	int sub();
+  in NUM2 = 2;
+  int sub();
 }
 
 // インターフェースを組み込んで実装するクラス
 class Calc implement Add, Sub{
-	public int add(){
-		return NUM1 + NUM2; // NUM1 とNUM2 を両方使っていることに注目
-	}
+  public int add(){
+    return NUM1 + NUM2; // NUM1 とNUM2 を両方使っていることに注目
+  }
 
-	public int sub(){
-		return NUM2 - NUM1;
-	}
+  public int sub(){
+    return NUM2 - NUM1;
+  }
 }
 
 // 上記のクラスを利用するクラス
 public class Main{
-	public static void main(String[] args){
-		Calc calc = new Calc();
-		int x = calc.add();
-		int y = calc.sub();
-	}
+  public static void main(String[] args){
+    Calc calc = new Calc();
+    int x = calc.add();
+    int y = calc.sub();
+  }
 }
 
 ```
@@ -225,36 +224,36 @@ public class Main{
 上記がインターフェースの基本的な扱い方だが，以下にdefault メソッドを使う場合とstatic メソッドを使う場合の例を示す．
 ```
 interface Calc{
-	public int NUM1 = 1;
-	public int NUM2 = 2;
+  public int NUM1 = 1;
+  public int NUM2 = 2;
 
-	// default メソッド
-	default public int calc(){
-		return NUM1 + NUM2;
-	}
+  // default メソッド
+  default public int calc(){
+    return NUM1 + NUM2;
+  }
 }
 
 interface Hoge{
-	// static メソッド
-	public static void func_hoge(){
-		System.out.println("hogeee");
-	}
+  // static メソッド
+  public static void func_hoge(){
+    System.out.println("hogeee");
+  }
 }
 
 class Add implements Calc{
-	// オーバーライドしないので何も書かない
+  // オーバーライドしないので何も書かない
 }
 
 public class Main{
-	public static void main(String[] argv){
+  public static void main(String[] argv){
 
-		Add add = new Add();
-		// メソッドの呼び出し
-		int x = add.calc();
+    Add add = new Add();
+    // メソッドの呼び出し
+    int x = add.calc();
 
-		// static メソッドなので，インターフェースのメソッドを名指しで呼び出す
-		int y = Hoge.func_hoge();
-	}
+    // static メソッドなので，インターフェースのメソッドを名指しで呼び出す
+    int y = Hoge.func_hoge();
+  }
 }
 
 ```
@@ -270,27 +269,42 @@ public class Main{
 ```
 // human.java の内容
 public class human{
-	protected String name;
-	protected int age;
-	public human();
+  protected String name;
+  protected int age;
+  public human();
 }
 
 // wizard.java の内容
 public class wizard extends human{ // human を継承
-	private magic;
-	public static void main(String[] argv){
+  private magic;
+  public static void main(String[] argv){
 
-		// 子クラスであるwizard は親クラスhuman を継承しているので，
-		// wizard クラスをhuman クラスとみなすことが出来る!...らしいよ．
-		human megumin = new wizard(); // <-- メリットがあるのかは不明．
+    // 子クラスであるwizard は親クラスhuman を継承しているので，
+    // wizard クラスをhuman クラスとみなすことが出来る!...らしいよ．
+    human megumin = new wizard(); // <-- メリットがあるのかは不明．
 
-		megumin.name = "Megumin";
-		megumin.age = 14;
-	}
+    megumin.name = "Megumin";
+    megumin.age = 14;
+  }
 }
 ```
 
 # パッケージ
+C++ でいう名前空間のこと(ただし，パッケージ名はUNIXのディレクトリの様な階層構造を持てるし，実際にパッケージごとにディレクトリを分けることが可能)
+- Java では，public なクラスは一つのファイルに一つしか記述できないため，開発の規模が大きくなってくるとクラスの数が膨大なことになる．
+これらを一つのディレクトリだけで管理すると，一切整理されていない状態の開発ディレクトリが出来上がってしまう．
+- しかし，実際の開発現場では，これらのクラスは役割(どのモジュールのためのクラスなのか)が決まっていて，役割毎にグループ分けして管理したほうがディレクトリの見通しが良くなる．
+そこで，これらのクラスを役割毎にグループ分けし，名前を付けることにする．この名前をパッケージと呼ぶ．
+- パッケージは階層構造を持つことが出来る．パッケージによるグループ分けには，スコープ的な意味のグループ分けと，物理的な意味のグループ分け(ディレクトリによる分割)の2つの意味がある．
+- ディレクトリ構成を無視してソースコードを配置すると，コンパイラが対象ファイルを見つけられなくなるので注意が必要．
+- クラスをパッケージに所属させるには"package 名前" を，他パッケージのクラスをインポートするには"import 名前" を宣言する．
+```
+package groupA // このクラスはgroupA というパッケージに所属する
+import groupB  // groupB をパッケージごとインポートする
+
+public class hoge{
+}
+```
 
 # サーブレット/JSP
 
