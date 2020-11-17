@@ -1,5 +1,11 @@
 Servlet/JSP の扱い及びweb アプリの開発を学習する．
 
+1. [基本事項](#Basic)
+1. [Login を行うweb アプリの処理の流れ](#Example)
+1. [Tomcat 上のサーブレットの設定方法](#Tomcat)
+1. [サーブレットの基礎文法](#Syntax)
+
+<a id = "Basic"></a>
 ## 基本事項
 - Servlet とJSP はほぼ同じもの
 - Servlet は，Java コードの中にHTML がインラインで書かれているようなもの
@@ -10,6 +16,7 @@ Servlet/JSP の扱い及びweb アプリの開発を学習する．
 - 一つのServlet は，通常は一つのクラスとして作成する
 - Servlet は，HttpServlet というクラスを継承して作成する
 
+<a id = "Example"></a>
 ## Login を行うweb アプリの処理の流れ
 0. サーブレットとしてLoginServlet, JSP としてlogin.jsp があるとする．
 1. ユーザがURL 欄にLoginServlet を指定して目的のweb ページを要求する(GETリクエスト)
@@ -23,7 +30,7 @@ Servlet/JSP の扱い及びweb アプリの開発を学習する．
 
 参考URL: https://www.pc-koubou.jp/magazine/2292
 
-
+<a id = "Tomcat"></a>
 ## Tomcat 上のサーブレットの設定方法
 
 サーブレットのHelloWorld を実行しようとしたが，ソースコードの配置場所やディレクトリの作り方などが分からなくてハマったので備忘録．
@@ -58,7 +65,7 @@ Tomcat の構築は既に完了しているとして，ここではまずサー�
 
 以上がTomcat 上におけるサーブレットのディレクトリの構築方法である．
 
-
+<a id = "Syntax"></a>
 # サーブレットの基礎文法
 サーブレットは基本的に一つのクラスとして定義するが，このクラスはHttpServlet クラスを継承することによって構築する．
 恐らくだが，サーブレットの基本型に関しては，ソケット通信のようにある程度作法の様なお決まりの型があると思う．
