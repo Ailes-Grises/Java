@@ -2,10 +2,10 @@
 
 本家様: https://www.ipentec.com/document/java-servlet-bean-order-app
 
-[JavaBeans とは](#AboutBeans)
-[概要](#Abstract)
-[作り方](#HowToMake)
-[使い方](#HowToUse)
+1. [JavaBeans とは](#AboutBeans)
+	1. [概要](#Abstract)
+	1. [作り方](#HowToMake)
+	1. [使い方](#HowToUse)
 
 <a id = "AboutBeans"></a>
 # JavaBeans とは
