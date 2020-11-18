@@ -9,6 +9,7 @@
 	1. [マップ(Map)](#Map)
 1. [制御構文](#ControlSyntax)
 1. [メソッドについて](#Method)
+1. [ファイル入出力](#fileIO)
 1. [抽象クラスとインターフェース](#AbstInterface)
 	1. [抽象クラス](#Abstruct)
 	1. [インターフェース](#Interface)
@@ -181,6 +182,60 @@ public class Hoge{
     Hoge.hoge_func();
   }
 }
+```
+
+<a id = "fileIO"></a>
+# ファイル入出力
+色々な方法が存在するが，ここではFileInputStream を用いた方法を紹介する．
+
+参考サイト : https://java.keicode.com/lang/io-textfile.php
+- FileInputStream というファイルIO のためのストリームを用いる
+- java.io.FileInputStream をインポートすることで利用可能
+- このストリームはクラスなので，コンストラクタにファイルパスを渡せばストリームの生成は完了する
+- read() メソッドなどがあり，これらを使えば読み書きは余裕
+- 使い方は以下の通り:
+```
+import java.io.FileInputStream;
+import java.io.FileNotFoudException;
+import java.io.IOException;
+
+try{
+  // ストリームの作成
+  FileInputStream fin = new FileInputStream("./filename.txt");
+
+  // 一文字ずつ読み込んでch に格納
+  while((char ch = fin.read()) != -1){
+    System.out.println("ch : " + ch);
+  }
+}catch(FileNotFoudException error){
+  // エラー処理
+  error.printStackTrace();
+}catch(IOException errror){
+  // エラー処理
+  error.printStackTrace();
+}
+```
+
+- 上記の様に，FileInputStream クラスを使えば何の問題もなくファイルからバイト列を読み出せるが，このクラスには原始的な機能しか備わっていない(C言語のread() みたいな感じ)．
+そこで，このクラスをラッピングし，より便利なメソッドを大量に備えたInputStreamReader というクラスを使用するのが定石である．
+- 使い方は以下の通り:
+```
+import java.io.*;
+import java.util.Arrays;
+
+char buf[] = new char[10];
+
+// FileInputStream をラッピングしてInputStreamReader のインスタンスを生成
+InputStreamReader fin = new InputStreamReader(new FileInputStream("./filename.txt"));
+
+// buf の限界まで文字列を読み込み，読み込んだ文字数をsize に返す
+while((int size = fin.read(buf)) != -1){
+  System.out.println("buf : " + buf);
+  System.out.println("size" + size);
+	余ったら'\0' を入れる
+  Arrays.fill(buf, '\0');
+}
+fin.close();
 ```
 
 <a id = "AbstInterface"></a>
