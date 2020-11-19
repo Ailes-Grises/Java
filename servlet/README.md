@@ -5,6 +5,8 @@ Servlet/JSP の扱い及びweb アプリの開発を学習する．
 1. [Tomcat 上のサーブレットの設定方法](#Tomcat)
 1. [サーブレットの基礎文法](#Syntax)
 
+参考サイト : http://www.javaroad.jp/opensource/js_tomcat2.htm
+
 <a id = "Basic"></a>
 ## 基本事項
 - Servlet とJSP はほぼ同じもの
