@@ -54,7 +54,7 @@ Tomcat の構築は既に完了しているとして，ここではまずサー�
 ```
  $ cd ./project_name/WEB-INF/classes
  $ vim HelloWorld.java
- $ javac HelloWorld.java
+ $ javac classpath /opt/tomcat/lib/servlet-api.jar HelloWorld.java
 ```
 
 4. WEB-INF ディレクトリにweb.xml を配置する．
