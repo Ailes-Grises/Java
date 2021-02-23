@@ -83,7 +83,7 @@ Tomcat の構築は既に完了しているとして，ここではまずサー�
  // 例 : キーワード = "hoge", url-pattern = "servlet/hello"
  > http://192.168.XX.CC/hoge/servlet/hello
 ```
-/etc/httpd/conf/extra/httpd-proxy.conf の書き方は[こちらのページ](https://github.com/Ailes-Grises/server#CoHttpd)を参照
+/etc/httpd/conf/extra/httpd-proxy.conf の書き方は[こちらのページ](https://github.com/Ailes-Grises/server#CoHttpd){:target="_blank"}を参照
 
 以上がTomcat 上におけるサーブレットのディレクトリの構築方法である．
 
