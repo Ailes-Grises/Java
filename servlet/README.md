@@ -1,5 +1,7 @@
 Servlet/JSP の扱い及びweb アプリの開発を学習する．
 
+ソケット通信みたいなノリで覚えよう．
+
 1. [基本事項](#Basic)
 1. [Login を行うweb アプリの処理の流れ](#Example)
 1. [Tomcat 上のサーブレットの設定方法](#Tomcat)
@@ -54,16 +56,34 @@ Tomcat の構築は既に完了しているとして，ここではまずサー�
 ```
  $ cd ./project_name/WEB-INF/classes
  $ vim HelloWorld.java
- $ javac classpath /opt/tomcat/lib/servlet-api.jar HelloWorld.java
+ $ javac -classpath /opt/tomcat/lib/servlet-api.jar HelloWorld.java
 ```
 
-4. WEB-INF ディレクトリにweb.xml を配置する．
+4. WEB-INF ディレクトリにweb.xml を配置する(※ javaソースコード内部でwebアノテーションを設定した場合にはweb.xml は不要)．
 ```
  $ cd ../
  $ vim web.xml
 ```
 
-5. ブラウザ上で，"http://192.168.XX.XX:8080/project_name/servlet/hello" と入力する．うまく行けば画面上にHello World が出てくる．
+5. ブラウザから，作成したアプリにアクセスしてみる．これには，Tomcat を名指しにしてアプリを実行する方法と，httpd 経由でTomcat と連携して実行する方法がある．
+```
+ // 基本的なURL のルール
+ > http://IPアドレス:ポート番号/アプリ名/{webアノテーションかweb.xmlのurl-pattern}
+
+ // httpd から連携させる場合
+ > http://IPアドレス:ポート番号/httpd-proxy.conf のキーワード/{webアノテーションかweb.xmlのurl-pattern}
+
+
+ // 1. Tomcat(ポート番号8080) を名指しにしてアプリにアクセス
+ // 例 : アプリ名 = "project_name", url-pattern = "servlet/hello"
+ > http://192.168.XX.XX:8080/project_name/servlet/hello
+
+
+ // 2. httpd にアクセス(Tomcat と連携させてアクセス)
+ // 例 : キーワード = "hoge", url-pattern = "servlet/hello"
+ > http://192.168.XX.CC/hoge/servlet/hello
+```
+/etc/httpd/conf/extra/httpd-proxy.conf の書き方は[こちらのページ](https://github.com/Ailes-Grises/server#Servlet)を参照
 
 以上がTomcat 上におけるサーブレットのディレクトリの構築方法である．
 
@@ -71,4 +91,17 @@ Tomcat の構築は既に完了しているとして，ここではまずサー�
 # サーブレットの基礎文法
 サーブレットは基本的に一つのクラスとして定義するが，このクラスはHttpServlet クラスを継承することによって構築する．
 恐らくだが，サーブレットの基本型に関しては，ソケット通信のようにある程度作法の様なお決まりの型があると思う．
+
+以下にサーブレットクラス全体の基本構造を示す:
+1. java.io.*, javax.servlet.* をインポートする
+1. HttpServlet クラスを継承する
+1. doGet(HttpServletRequest, HttpServletResponse) とdoPost() をオーバーライドする
+	1. エラー処理は全てServletException とIOException クラスに投げる
+1. GET リクエストが来た時はdoGet(), POST リクエストが来た時はdoPost() が発動する．
+1. HttpServletRequest クラスには，リクエストされた情報が全て詰まっている．ここから情報を読み出して処理していく．
+1. HttpServletResponse クラスには，サーブレットがクライアントに送り返したいHTML の情報を詰めていく．
+
+doGet() の基本は以下の通り:
+1. response.setContentType() でContent-Type ヘッダの情報をresponse に詰めていく．printf のノリで手書きで書く．
+1. response.getWriter() で生成した何か(恐らく何らかのファイルディスクリプタのポインタ)をPrintWriter クラスのインスタンス(隠蔽しているが，恐らくこれの正体もポインタ)で受け取り，HTML を書いていく(printf みたいなノリ)．
 
