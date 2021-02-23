@@ -65,7 +65,13 @@ Tomcat の構築は既に完了しているとして，ここではまずサー�
  $ vim web.xml
 ```
 
-5. ブラウザから，作成したアプリにアクセスしてみる．これには，Tomcat を名指しにしてアプリを実行する方法と，httpd 経由でTomcat と連携して実行する方法がある．
+5. Apache httpd とTomcat を連携させるなら，<a href="https://github.com/Ailes-Grises/server#CoHttpd" target="_blank">こちらのページ</a>を参考にしながらhttpd-proxy.conf を編集する．
+```
+ $ mkdir -p /etc/httpd/conf/extra/
+ $ vim /etc/httpd/conf/extra/httpd-proxy.conf
+```
+
+6. ブラウザから，作成したアプリにアクセスしてみる．これには，Tomcat を名指しにしてアプリを実行する方法と，httpd 経由でTomcat と連携して実行する方法がある．
 ```
  // 基本的なURL のルール
  > http://IPアドレス:ポート番号/アプリ名/{webアノテーションかweb.xmlのurl-pattern}
