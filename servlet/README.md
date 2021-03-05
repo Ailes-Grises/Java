@@ -99,7 +99,7 @@ doGet() の基本は以下の通り:
 # エラー集
 私が実際に経験したエラーとその解決方法を残しておく．
 - サーブレットでコンパイルが通らない
-	- クラスパスを指定していない．"javac -classpath /opt/tomcat/lib/servlet-api.jar hoge.java" と入力したら解決した．
+	- クラスパスを指定していない．```javac -classpath /opt/tomcat/lib/servlet-api.jar hoge.java``` と入力したら解決した．
 - エラーを修正してコンパイルしたのに結果が反映されない
 	- tomcat.service を再起動していなかった．```systemctl restart tomcat.service``` を実行してしばらく待って再アクセスしたら解決した．
 - フォームを作成する際，jsp ファイルと連携先のアノテーションが完全に一致しているのにどうしても404エラーが出る
