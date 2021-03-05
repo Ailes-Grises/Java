@@ -2,6 +2,7 @@ Servlet/JSP の扱い及びweb アプリの開発を学習する．
 
 1. [基本事項](#Basic)
 1. [Tomcat 上のサーブレットの設定方法](#Tomcat)
+	1. [WebContent ディレクトリについて](#WebContent)
 1. [サーブレットの基礎文法](#Syntax)
 1. [エラー集](#Error)
 
@@ -77,13 +78,23 @@ Tomcat の構築は既に完了しているとして，ここではまずサー�
 
 以上がTomcat 上におけるサーブレットのディレクトリの構築方法である．
 
+<a id = "WebContent"></a>
+## WebContent ディレクトリについて
+MVCモデルなどを勉強し始めると，WebContent というディレクトリを良く目にする．
+これは何なのかというと，Eclipse 独自の事情で作られたwebアプリのルートディレクトリということになる．
+ここまでのようにEclipse を使わない場合，"./WebContent/ = /opt/tomcat/webapps/Hoge/" のことだと考えて問題ない．
+実際，Eclipse で開発を行う場合にはWebContent と同一のディレクトリに"build" 等のよく分からないディレクトリが複数存在するが，アプリを起動してもこれらがサーバ上で公開されることは無いらしい．
+
+要するに，アプリ本体のコード以外にもプロジェクトごとにあれこれと設定情報等をまとめて扱う必要があり，これらを管理するためのディレクトリがアプリ本体以外に複数存在する，だからアプリ本体を管理するためのディレクトリとして"WebContent" というディレクトリが作られた，ということだろう．
+上記の解釈で多分合っていると思うので，迷ったら参考にすること．
+
 <a id = "Syntax"></a>
 # サーブレットの基礎文法
 サーブレットは基本的に一つのクラスとして定義するが，このクラスはHttpServlet クラスを継承することによって構築する．
 やることとしては，HttpServlet::doGet() とHttpServlet::doPost() をオーバーライドするだけ．
 
 以下にサーブレットクラス全体の基本構造を示す:
-1. java.io.*, javax.servlet.* をインポートする
+1. java.io.\*, javax.servlet.\*, javax.servlet.http.\*, javax.servlet.annotation.\* をインポートする
 1. HttpServlet クラスを継承する
 1. doGet(HttpServletRequest, HttpServletResponse) とdoPost() をオーバーライドする
 	1. エラー処理は全てServletException とIOException クラスに投げる
