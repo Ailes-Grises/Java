@@ -389,10 +389,10 @@ C++ でいう名前空間のこと(ただし，パッケージ名はUNIXのデ�
    ├── groupA/ ── main.java
    └── groupB/ ── function.java
 
-/\* ./A/main.java \*/
+/* ./A/main.java */
 
  | package groupA // このクラスはgroupA というパッケージに所属する
- | import groupB.\*  // パッケージgroupB のクラスを全てインポート
+ | import groupB.*  // パッケージgroupB のクラスを全てインポート
  | 
  | public class main{
  | 	// 色々と書かれている...
@@ -415,7 +415,7 @@ C++ でいう名前空間のこと(ただし，パッケージ名はUNIXのデ�
 ```
  $ cd /opt/tomcat/webapps/apuri/WEB-INF/classes
  $ ls
- >> servlet/ model/
- $ javac -classpath /opt/tomcat/lib/servlet-api.jar ./servlet/\*.java ./model/\*.java
+   servlet/ model/
+ $ javac -classpath /opt/tomcat/lib/servlet-api.jar ./servlet/*.java ./model/*.java
 ```
 
