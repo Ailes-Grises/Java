@@ -16,6 +16,7 @@
 	1. [抽象クラスとインターフェースの違い](#Abstract_and_Interface)
 1. [継承](#Inheritance)
 1. [パッケージ](#Package)
+1. [ラムダ式](#Lambda)
 
 <a id = "Basic"></a>
 # Java の基本
@@ -83,7 +84,7 @@ System.out.println("length : " + c.length());
 # コレクションクラス(C++ のSTL)
 - 有名なデータ構造を実現するために提供されるフレームワーク．
 - クラスとインターフェースの組み合わせによって実現される．
-- 有名なのはList, Set, Map の3つ．
+- 有名なのはList, Set, Map インターフェースを実装したArrayList, HashSet, HashMap クラスの3つ．
 - 目的のデータ構造を実現するのはもちろんのこと，便利なメソッドがたくさん実装されている．
 - Java の利点を最大限活かすには，これらを積極的に利用するべき．
 
@@ -112,6 +113,22 @@ str.add("hoge");
 str.add("hogee");
 str.add("hogeee");
 
+// 要素の取得(要素へのアクセス)
+str.get(2);
+
+// 要素数の取得
+int length = str.size();
+
+// 要素のシーケンス番号の取得
+int index = str.indexOf("hoge");
+
+// 要素の削除
+str.remove(0);
+
+
+// ====== おまけ ====== //
+
+
 // 他のリストをまとめて追加
 str.addAll(arr);
 
@@ -121,26 +138,13 @@ str.addAll(2, arr);
 // 要素を指定してまとめて追加(Arrays.asList() を使ってる)
 str.addAll(Arrays.asList('X', 'Y', 'Z'));
 
-
 // 要素の上書き
 str.set(1, "HOGE");
-
-// 要素の取得(要素へのアクセス)
-str.get(2);
-
-// 要素数の取得
-int length = str.size();
-
-// 要素の位置の取得
-int index = str.indexOf("hoge");
 
 // 要素の有無の確認
 if(str.contain("hoge")){
   // 処理
 }
-
-// 要素の削除
-str.remove(0);
 
 // 重複要素の削除
 str.distinct("hoge");
@@ -162,12 +166,22 @@ List<String> cpList = str.subList(2, 6);
 <a id = "ControlSyntax"></a>
 # 制御構文
 - for, while, if, switch に関してはC++ と全く同じ．
+- Java では，新たに拡張for文という構文が用意されている．これは，通常のfor文をより簡潔に記述するための書き方だが，要するに他言語のforeach 文や"for ~ in" 構文と同じである．
+```
+String [] arr = {"hoge", "hogee", "hogeee"};
+
+// arr の各要素を一つずつ順番に取り出し，これをtemp に毎回代入する
+// 要するにシェルスクリプトの for 変数 in 配列; と同じ
+for(String temp : arr){
+	System.out.println(temp);
+}
+```
 
 <a id = "Method"></a>
 # メソッドについて
 - 完全なるオブジェクト指向言語なので，C言語の様な，どこにも属さないユーザ関数は存在しない．
 - そのかわり，static 演算子の付いた関数が実質従来通りのユーザ関数に相当する．
-- this ポインタは省略してok っぽい．
+- this ポインタは省略してok っぽい(だが非推奨である)．
 - 同一ディレクトリ内のjava コードで定義されている他クラスのメソッドで，なおかつstatic なメソッドならば，"クラス名.メソッド" の形で呼び出せる(インスタンスの参照渡しが不要)
 ```
 public class Hoge{
@@ -189,7 +203,7 @@ public class Hoge{
 # ファイル入出力
 色々な方法が存在するが，ここではFileInputStream を用いた方法を紹介する．
 
-参考サイト : https://java.keicode.com/lang/io-textfile.php
+参考サイト : https: // java.keicode.com/lang/io - textfile.php
 - FileInputStream というファイルIO のためのストリームを用いる
 - java.io.FileInputStream をインポートすることで利用可能
 - このストリームはクラスなので，コンストラクタにファイルパスを渡せばストリームの生成は完了する
@@ -205,7 +219,7 @@ try{
   FileInputStream fin = new FileInputStream("./filename.txt");
 
   // 一文字ずつ読み込んでch に格納
-  while((char ch = fin.read()) != -1){
+  while((char ch = fin.read()) != - 1){
     System.out.println("ch : " + ch);
   }
 }catch(FileNotFoudException error){
@@ -230,7 +244,7 @@ char buf[] = new char[10];
 InputStreamReader fin = new InputStreamReader(new FileInputStream("./filename.txt"));
 
 // buf の限界まで文字列を読み込み，読み込んだ文字数をsize に返す
-while((int size = fin.read(buf)) != -1){
+while((int size = fin.read(buf)) != - 1){
   System.out.println("buf : " + buf);
   System.out.println("size" + size);
 	余ったら'\0' を入れる
@@ -264,6 +278,7 @@ abstract class Hoge{
 - 定数とメソッドのみを定義できる．
 - インターフェースのメンバ変数は，自動的にpublic static final が付く．
 - クラス同様に，static メソッドにすると，メソッドの所属はインスタンスではなくインターフェースになる．
+- <a href="http://daisuke-m.hatenablog.com/entry/20081214/1229259973">このサイト</a>が非常に参考になる
 
 
 - 抽象クラスと似ているが，**クラスではない．**
@@ -423,12 +438,83 @@ C++ でいう名前空間のこと(ただし，パッケージ名はUNIXのデ�
 したがって，上記の様に複数のディレクトリが並列に並んでいる場合は，これらのディレクトリの1つ上のディレクトリでコンパイルする必要がある．
 
 特に，サーブレットとJSP でMVC モデルのwebアプリを作成する際に，実行方法で大変困った．
-一般的なweb アプリのディレクトリ構成では，```apuri/WEB-INF/classes``` 配下にコードを置くが，パッケージを使うとこのディレクトリの内部が複数に分岐する．
+一般的なweb アプリのディレクトリ構成では，```apuri/WEB - INF/classes``` 配下にコードを置くが，パッケージを使うとこのディレクトリの内部が複数に分岐する．
 以下にこの時のビルド方法を書いておくので，困ったら参考にすること．
 ```
- $ cd /opt/tomcat/webapps/apuri/WEB-INF/classes
+ $ cd /opt/tomcat/webapps/apuri/WEB - INF/classes
  $ ls
     servlet/ model/
- $ javac -classpath /opt/tomcat/lib/servlet-api.jar ./servlet/*.java ./model/*.java
+ $ javac - classpath /opt/tomcat/lib/servlet - api.jar ./servlet/*.java ./model/*.java
 ```
 
+<a id = "Lambda"></a>
+# ラムダ式
+- 通常，関数は全てプログラムがメモリにロードされるタイミングで全て生成されるが，ラムダ式形式で書かれた関数(というか処理ロジック)は式が実行されるタイミングでロジックが生成される(new みたいな感じ)
+- 関数ではなくただの処理ロジックとしてその場で論理式が評価されるため，ラムダ式の外で宣言された変数も利用可能である(ただしロジック外の変数は基本的にfinal であることに注意)
+- ラムダ式で書かれた処理ロジックは，関数オブジェクトとして変数に格納可能
+- C言語の関数ポインタ(関数リテラル)の話に近い
+- 関数オブジェクトを格納できるのは、格納する処理ロジックの引数と戻り値の型が一致したメソッドを一つだけ持つ抽象インターフェースだけである(これをSAM(Single Abstract Method)インターフェースという)
+- 毎回抽象インターフェースを自分で定義するのは怠いため、よく使われそうなSAMインターフェースはjava.util.function.* で提供されている
+- 値ではなく処理ロジックそのものを他の関数の引数として渡して動的に処理を変更するために生まれた機能
+- ラムダ式や関数オブジェクトは、stream() やparallelStream() メソッドと組み合わせると非常にエレガントに記述できる
+
+```
+// 関数オブジェクトの基本
+
+// ex1. まずは提供されているSAMインターフェースを利用してみる
+import java.util.function.*;
+
+public class main{
+	public static int add(int a, int b){
+		return a + b;
+	}
+
+	public static void main(String[] args){
+		IntBinaryOperator func_ptr = main::add; // セミコロンはつかない
+		int sum = func_ptr.applyAsInt(2, 3);
+		System.out.println(sum); // 結果は"5"
+	}
+}
+
+// ================================================================== //
+
+// ex2. 今度は自分でSAMインターフェースを宣言して関数オブジェクトを扱う
+
+public interface MyFunction{
+	// 抽象メソッドは一つだけ!
+	public abstract int func(int a, int b);
+}
+public class main{
+	public static int add(int a, int b){
+		return a + b;
+	}
+
+	public static void main(String[] args){
+		Myfunc func_ptr = main::add;
+		int sum = func_ptr.func(2, 3); // MyFunction の抽象メソッドを呼び出している
+		System.out.println(sum); // 結果は"5"
+	}
+}
+
+// ====== おまけ ====== //
+
+// ちなみに、ex1 では関数呼び出しにapplyAsInt() というメソッドを呼んでいたが、あれもSAMインターフェースの抽象メソッドである。
+public interface IntBinaryOperator{
+	public abstract int applyAsInt(int left, int right);
+}
+
+```
+
+```
+// ex1. ラムダ式の基本
+
+import java.util.function.*;
+
+public class main{
+	public static void main(String[] args){
+		IntBinaryOperator func_ptr = (int a, int b) -> { return a + b; };
+		int sum = func_ptr.applyAsInt(5, 3);
+		System.out.println(sum); // 結果は"8"
+	}
+}
+```
