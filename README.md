@@ -453,10 +453,10 @@ C++ でいう名前空間のこと(ただし，パッケージ名はUNIXのデ�
 - 関数ではなくただの処理ロジックとしてその場で論理式が評価されるため，ラムダ式の外で宣言された変数も利用可能である(ただしロジック外の変数は基本的にfinal であることに注意)
 - ラムダ式で書かれた処理ロジックは，関数オブジェクトとして変数に格納可能
 - C言語の関数ポインタ(関数リテラル)の話に近い
-- 関数オブジェクトを格納できるのは、格納する処理ロジックの引数と戻り値の型が一致したメソッドを一つだけ持つ抽象インターフェースだけである(これをSAM(Single Abstract Method)インターフェースという)
-- 毎回抽象インターフェースを自分で定義するのは怠いため、よく使われそうなSAMインターフェースはjava.util.function.* で提供されている
+- 関数オブジェクトを格納できるのは，格納する処理ロジックの引数と戻り値の型が一致したメソッドを一つだけ持つ抽象インターフェースだけである(これをSAM(Single Abstract Method)インターフェースという)
+- 毎回抽象インターフェースを自分で定義するのは怠いため，よく使われそうなSAMインターフェースはjava.util.function.* で提供されている
 - 値ではなく処理ロジックそのものを他の関数の引数として渡して動的に処理を変更するために生まれた機能
-- ラムダ式や関数オブジェクトは、stream() やparallelStream() メソッドと組み合わせると非常にエレガントに記述できる
+- ラムダ式や関数オブジェクトは，stream() やparallelStream() メソッドと組み合わせると非常にエレガントに記述できる
 
 ```
 // 関数オブジェクトの基本
@@ -465,15 +465,18 @@ C++ でいう名前空間のこと(ただし，パッケージ名はUNIXのデ�
 import java.util.function.*;
 
 public class main{
-	public static int add(int a, int b){
-		return a + b;
-	}
+  // 適当に関数を定義
+  public static int add(int a, int b){
+    return a + b;
+  }
 
-	public static void main(String[] args){
-		IntBinaryOperator func_ptr = main::add; // セミコロンはつかない
-		int sum = func_ptr.applyAsInt(2, 3);
-		System.out.println(sum); // 結果は"5"
-	}
+  public static void main(String[] args){
+    // SAMインターフェースであるIntBinaryOperator を使ってみる
+    IntBinaryOperator func_ptr = main::add; // セミコロンはつかない
+    // 関数を呼び出す時はインターフェースの抽象メソッドを使用する
+    int sum = func_ptr.applyAsInt(2, 3); // 今回はapplyAsInt() という名前の抽象メソッドを使用
+    System.out.println(sum); // 結果は"5"
+  }
 }
 
 // ================================================================== //
@@ -481,26 +484,27 @@ public class main{
 // ex2. 今度は自分でSAMインターフェースを宣言して関数オブジェクトを扱う
 
 public interface MyFunction{
-	// 抽象メソッドは一つだけ!
-	public abstract int func(int a, int b);
+  // 抽象メソッドは一つだけ!
+  public abstract int func(int a, int b);
 }
-public class main{
-	public static int add(int a, int b){
-		return a + b;
-	}
 
-	public static void main(String[] args){
-		Myfunc func_ptr = main::add;
-		int sum = func_ptr.func(2, 3); // MyFunction の抽象メソッドを呼び出している
-		System.out.println(sum); // 結果は"5"
-	}
+public class main{
+  public static int add(int a, int b){
+    return a + b;
+  }
+
+  public static void main(String[] args){
+    Myfunc func_ptr = main::add;
+    int sum = func_ptr.func(2, 3); // MyFunction の抽象メソッドを呼び出している
+    System.out.println(sum); // 結果は"5"
+  }
 }
 
 // ====== おまけ ====== //
 
-// ちなみに、ex1 では関数呼び出しにapplyAsInt() というメソッドを呼んでいたが、あれもSAMインターフェースの抽象メソッドである。
+// ちなみに，ex1 では関数呼び出しにapplyAsInt() というメソッドを呼んでいたが，あれもSAMインターフェースの抽象メソッドである．
 public interface IntBinaryOperator{
-	public abstract int applyAsInt(int left, int right);
+  public abstract int applyAsInt(int left, int right);
 }
 
 ```
@@ -508,13 +512,74 @@ public interface IntBinaryOperator{
 ```
 // ex1. ラムダ式の基本
 
+//   (引数) -> { 
+//     様々な処理;
+//     return 戻り値; };
+//   }
+
 import java.util.function.*;
 
 public class main{
-	public static void main(String[] args){
-		IntBinaryOperator func_ptr = (int a, int b) -> { return a + b; };
-		int sum = func_ptr.applyAsInt(5, 3);
-		System.out.println(sum); // 結果は"8"
-	}
+  public static void main(String[] args){
+
+    // 基本形
+    IntBinaryOperator func_ptr = (int a, int b) -> { return a + b; };
+
+    int sum = func_ptr.applyAsInt(5, 3);
+    System.out.println(sum); // 結果は"8"
+  }
 }
+
+
+// ex2. 省略記法を使ってみる
+
+public class main{
+  public static void main(String[] args){
+
+    // 代入分の右辺でラムダ式を使う時には，引数の型を省略してok
+    IntToDoubleFunction func = (x) -> { return x * x * 3.14; };
+
+    // 引数が一つしかない時には"()"を省略してok
+    IntToDoubleFunction func = x -> { return x * x * 3.14; };
+
+    // ラムダ式が単一のreturn 文の場合，"{}" を省略してok
+    IntToDoubleFunction func = x -> return x * x * 3.14;
+
+  }
+}
+
+
+
+// ex3. 具体例
+
+// 勇者クラスのインスタンスを受け取り，そのHPを返す
+(Yuusya obj) -> return obj.getHp();
+
+// 引数なしで，現在日時を返す
+() -> return new java.util.Date();
+
+// int 型配列を受け取り，そのコピーを作成し，ソートして返す
+(int[] arr) -> {
+  int[] arr2 = java.util.Arrays.copyOf(arr, arr.length);
+  java.util.Arrays.sort(arr2);
+  return arr2;
+}
+
+// 関数オブジェクトを受け取り，2回呼び出して合計を返す
+(IntBinaryOperator func, int a, int b) -> {
+  int result = func.applyAsInt(a, b) + func.applyAsInt(a, b);
+  return result;
+}
+
+```
+
+```
+// stream() と組み合わせた処理
+
+// List<Integer> list の各要素を2倍にする
+list.stream().foreach( var -> System.out.println(var * 2) );
+
+// List<Character> msg の各要素に対してsleep() を呼び出す(喋らせる事が可能になる);
+msg.stream().foreach( moji -> moji.sleep() );
+
 ```
