@@ -7,10 +7,10 @@ Spring Boot は，Java のWEB アプリケーションを作成するための�
 
 # 準備
 IDE 等を使ってSpring アプリケーションを作成する．
-Eclipse で作る方法が一般的だが，今回は[Spring Initializr](#https://start.spring.io/)というweb サービスを使ってプロジェクトのひな型を作成する．
+Eclipse で作る方法が一般的だが，今回は<a href="https://start.spring.io/">Spring Initializr</a> というweb サービスを使ってプロジェクトのひな型を作成する．
 なお，```gradle init``` などとすれば，一応コマンドだけでSpring アプリケーションを作成することも可能である．
 
-![Spring Initializr のサイトイメージ](https://github.com/Ailes-Grises/Java/SpringBoot/img/SpringInitializr.jpg "Spring Initializr のサイトイメージ")
+![Spring Initializr のサイトイメージ](https://github.com/Ailes-Grises/Java/img/SpringBoot/SpringInitializr.jpg "Spring Initializr のサイトイメージ")
 
 上記サイトで各項目の設定やモジュールの選択を行うと，zip ファイルがダウンロードされるので，これを展開したものがSpring アプリケーションのひな型となる．
 
