@@ -1,6 +1,6 @@
 # team1_main
 ## 設計
-![ER図](./readme/img/ER.png)
+![ER図](https://github.com/Ailes-Grises/Java/blob/img_BlogApps/SpringBoot/BlogApps/ER.png)
 ## 導入
 * 以下を参考にSQLのセットアップ(※[]内を任意のものに変更してください)
 
