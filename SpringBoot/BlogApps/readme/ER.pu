@@ -1,0 +1,12 @@
+@startuml ER
+entity article {
+  * id [PK]
+  --
+  * author
+  * title
+  * content
+  * favorite_count
+  * access_count
+  * create_at
+}
+@enduml
