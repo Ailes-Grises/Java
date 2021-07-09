@@ -1,6 +1,11 @@
 # team1_main
 ## 概要
 ログインしてブログを作成し，記事を保存できるようなアプリケーションを作成した．
+```
+メモ
+ - JPA を利用している．
+ - セッションスコープを導入していないせいで，ページが2回以上遷移する部分のデータの受け渡しが冗長である．
+```
 
 ## 設計
 ![ER図](https://github.com/Ailes-Grises/Java/blob/img_BlogApps/SpringBoot/BlogApps/ER.png)
