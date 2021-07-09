@@ -1,6 +1,10 @@
 # team1_main
+## 概要
+ログインしてブログを作成し，記事を保存できるようなアプリケーションを作成した．
+
 ## 設計
 ![ER図](https://github.com/Ailes-Grises/Java/blob/img_BlogApps/SpringBoot/BlogApps/ER.png)
+
 ## 導入
 * 以下を参考にSQLのセットアップ(※[]内を任意のものに変更してください)
 
