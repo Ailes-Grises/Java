@@ -1,7 +1,7 @@
 このディレクトリでは，Java の基本文法についてまとめている．
 
-- HttpServlet クラスを使った昔ながらのサーブレット/JSP アプリケーションの作成方法は[こちら](#https://github.com/Ailes-Grises/Java/tree/master/servlet)
-- Spring Boot とGradle を使った開発方法は[こちら](#https://github.com/Ailes-Grises/Java/tree/master/SpringBoot)
+- HttpServlet クラスを使った昔ながらのサーブレット/JSP アプリケーションの作成方法は<a href="https://github.com/Ailes-Grises/Java/tree/master/servlet">こちら</a>
+- Spring Boot とGradle を使った開発方法は<a href="https://github.com/Ailes-Grises/Java/tree/master/SpringBoot">こちら</a>
 
 1. [Java の基本](#Basic)
 1. [アクセス権](#Permission)
